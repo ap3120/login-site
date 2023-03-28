@@ -18,7 +18,7 @@
 
         <div class='r-wrapper'>
             <button class='close-r-form'>X</button>
-            <form action='php/register.php' method='POST'>
+            <form id='r-f' action='#' method='POST'>
                 <h3>Register</h3>
                 <div class='input-box'>
                     <input type='text' id='r-username' name='r-username' required/>
@@ -38,7 +38,7 @@
         
         <div class='l-wrapper'>
             <button class='close-l-form'>X</button>
-            <form action='#' method='POST'>
+            <form action='php/login.php' method='POST'>
                 <h3>Login</h3>
                 <div class='input-box'>
                     <input type='text' id='l-username' name='l-username' required/>
@@ -50,11 +50,13 @@
                 </div>
                 <input type='submit' class='form-btn' value='Login'>
             </form>
+            <?php
+            //if (isset($_GET['error'])) {?>
+                <p><?php //echo $_GET['error']; ?></p>
+            <?php//}?>
         </div>
         
         <script src='js/jquery-3.6.3.min.js'></script>
         <script src='js/main.js'></script>
     </body>
 </html>
-
-
