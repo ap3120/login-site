@@ -32,7 +32,12 @@ $('#r-f').on('submit', (e) => {
             
             console.log(res);
             if (res.msg === 'The two passwords do not match.' || res.msg === 'User already exists.') {
-                alert(res.msg);
+                let $toast = $('<div>').text(res.msg);
+                $toast.attr({'class': 'toast'});
+                $('#r-f').append($toast);
+                setTimeout(function() {
+                    $toast.remove();
+                }, 3000);
             } else {
                 $('.r-wrapper').removeClass('active');
                 $('.l-wrapper').addClass('active');
@@ -40,4 +45,32 @@ $('#r-f').on('submit', (e) => {
         },
         error: errorThrown => {console.log(errorThrown);}
     })
+});
+
+$('#l-f').on('submit', e => {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'POST',
+        url: 'php/login.php',
+        data: {
+            username: $('#l-username').val(),
+            password: $('#l-pw').val()
+        },
+        dataType: 'json',
+        success: res => {
+            console.log(res);
+            if (res.error) {
+                let $toast = $('<div>').text(res.error);
+                $toast.attr({'class': 'toast'});
+                $('#l-f').append($toast);
+                setTimeout(function() {
+                    $toast.remove();
+                }, 3000);
+            } else {
+                window.location.href = 'http://localhost/login-site/php/dashboard.php'
+            }
+        },
+        error: errorThrown => {console.log(errorThrown);}
+    });
 });

@@ -1,0 +1,5 @@
+CREATE USER 'sammy'@'localhost' IDENTIFIED BY 'password';
+CREATE DATABASE database_name;
+CREATE TABLE table_name (user_id int NOT NULL AUTO_INCREMENT, username varchar(250), password varchar(250), access BOOLEAN DEFAULT FALSE, PRIMARY_KEY(user_id));
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, INDEX, DELETE, SELECT, REFERENCES on database_name.* TO 'sammy'@'localhost' WITH GRANT OPTION;
+

@@ -1,4 +1,15 @@
+
+<?php
+session_start();
+
+if (isset($_SESSION['username'])) {
+    header('Location: php/dashboard.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
+
 
 <html lang='en'>
 
@@ -38,7 +49,7 @@
         
         <div class='l-wrapper'>
             <button class='close-l-form'>X</button>
-            <form action='php/login.php' method='POST'>
+            <form id='l-f' action='#' method='POST'>
                 <h3>Login</h3>
                 <div class='input-box'>
                     <input type='text' id='l-username' name='l-username' required/>
@@ -50,10 +61,6 @@
                 </div>
                 <input type='submit' class='form-btn' value='Login'>
             </form>
-            <?php
-            //if (isset($_GET['error'])) {?>
-                <p><?php //echo $_GET['error']; ?></p>
-            <?php//}?>
         </div>
         
         <script src='js/jquery-3.6.3.min.js'></script>

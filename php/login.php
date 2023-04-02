@@ -5,8 +5,12 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Get the user's input from the login form
-    $username = $_POST['l-username'];
-    $password = $_POST['l-pw'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $output['session']['id'] = '';
+    $output['session']['username'] = '';
+    $output['error'] = null;
 
     // Connect to the database
     include('config.php');
@@ -14,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check connection
     if ($mysqli->connect_errno) {
-        echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+        $output['error'] = "Failed to connect to MySQL: " . $mysqli->connect_error;
+        echo json_encode($output);
         exit();
     }
 
@@ -33,26 +38,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
 
-            // Redirect the user to the dashboard page
-            header('Location: dashboard.php');
-            exit();
+            $output['session']['id'] = $row['id'];
+            $output['session']['username'] = $row['username'];
+            $stmt->close();
+            $mysqli->close();
+            echo json_encode($output);
 
         } else {
             // The password is incorrect
-            $error = "Invalid password.";
-            $encoded_error = urlencode($error);
-            header('Location: ../index.php?error={$encoded_error}');
+            $stmt->close();
+            $mysqli->close();
+            $output['error'] = "Invalid password.";
+            echo json_encode($output);
         }
     } else {
         // The user does not exist
-        $error = "Invalid username.";
-        $encoded_error = urlencode($error);
-        header('Location: ../index.php?error={$encoded_error}');
+        $stmt->close();
+        $mysqli->close();
+        $output['error'] = "Invalid username.";
+        echo json_encode($output);
     }
-
-    // Close the database connection
-    $stmt->close();
-    $mysqli->close();
 
 }
 
